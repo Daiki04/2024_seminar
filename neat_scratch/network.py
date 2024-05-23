@@ -55,8 +55,11 @@ class FeedForwardNetwork:
                     if current_node == out_node:
                         connection_gene = genome.connections[connection_key]
                         input_this_node.append((in_node, connection_gene.weight))
-
-                current_node_gene = genome.nodes[current_node]
+                try:
+                    current_node_gene = genome.nodes[current_node]
+                except KeyError:
+                    print("current_node", current_node)
+                    print([node.key for node in genome.nodes.values()])
                 node_evals.append((current_node, "sigmoid", "sum", current_node_gene.bias, 1.0, input_this_node))
 
         return FeedForwardNetwork(input_node_keys, output_node_keys, node_evals)
